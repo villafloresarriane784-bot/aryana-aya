@@ -1,149 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Responsive Web Design Layout</title>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial;
-  padding: 10px;
-  background-image: url("image/background.jpg");
-  background-size: cover;
-}
-
-/* Header/Blog Title */
-.header {
-  padding: 55px;
-  text-align: center;
-  background-image: url("image/back.png");
-  background-position: top;
-  background-repeat: no-repeat;
-  background-size: 10%;
-}
-
-.header h1 {
-  font-size: 50px;
-}
-
-/* Style the top navigation bar */
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-}
-
-/* Style the topnav links */
-.topnav a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-/* Change color on hover */
-.topnav a:hover {
-  color: black;
-}
-
-/* Create two unequal columns that floats next to each other */
-/* Left column */
-.leftcolumn {   
-  float: left;
-  width: 100%;
-  text-align: center;
-}
-
-/* Right column */
-.rightcolumn {
-  float: left;
-  width: 0%;
-  background-color: #f1f1f1;
-  padding-left: 20px;
-}
-
-/* Fake image */
-.fakeimg {
-  background-color: #aaa;
-  width: 100%;
-  padding: 20px;
-}
-
-/* Add a card effect for articles */
-.card {
-  padding: 20px;
-  margin-top: 20px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Footer */
-.footer {
-  padding: 20px;
-  text-align: center;
-  margin-top: 20px;
-  color: blue;
-}
-
-/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
-
-@media screen and (max-width: 800px) {
-  .leftcolumn, .rightcolumn {   
-    width: 100%;
-    padding: 0;
-  }
-}
-
-/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
-
-@media screen and (max-width: 400px) {
-  .topnav a {
-    float: none;
-    width: 100%;
-  }
-}
-</style>
+  <title>LCBA – Home Economics</title>
+  <link rel="stylesheet" href="LCBA.css">
+  <style>
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-image: url(back.png), url(background.jpg);
+      background-position: top center, center;
+      background-repeat: no-repeat, no-repeat;
+      background-size: 100px, cover;
+      background-color: rgba(0,0,50,0.6);
+      padding: 40px 20px;
+    }
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin: 0 0 12px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      color: white;
+      margin: 0 0 16px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+    }
+    .hero p {
+      color: rgba(255,255,255,0.8);
+      font-size: 16px;
+      margin: 0 0 32px;
+      background: rgba(255,255,255,0.1);
+      padding: 8px 20px;
+      border-radius: 2px;
+    }
+    .hero a {
+      display: inline-block;
+      padding: 12px 32px;
+      background: white;
+      color: #1a1a2e;
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+      border-radius: 2px;
+      transition: opacity 0.2s;
+    }
+    .hero a:hover { opacity: 0.85; }
+  </style>
 </head>
-
 <body>
 
-<div class="header">
-  <br><br><br>
-  <h2>LAGUNA COLLEGE OF BUSINESS AND ARTS</h2>
-  <p style="background-color: whitesmoke;">Presenting a Home Economic strand</p>
-  <br>
-  <p>Welcome!</p>
-  <br>
-  <h1>LCBA STUDENT!</h1>
-</div>
-
-
 <div class="topnav">
-  <a href="LCBA.html">LCBA</a>
-  <a href="HE.html">TVL-HE</a>
-  <a href="Image.html">Image Gallery</a>
-  <a href="Video.html">Video Gallery</a>
-   <a href="Games.html" style="float:right">Games</a>
+  <a href="About_LCBA.html">LCBA</a>
+  <a href="AboutTheStrand.html">TVL-HE</a>
+  <a href="ProductImage.html">Image Gallery</a>
+  <a href="ProductVideo.html">Video Gallery</a>
+  <a href="GamesHestrand.html" style="float:right">Games</a>
 </div>
 
+<div class="hero">
+  <h2>Laguna College of Business and Arts</h2>
+  <h1>LCBA Student!</h1>
+  <p>Presenting the Home Economics Strand</p>
+  <a href="AboutTheStrand.html">Explore TVL-HE</a>
+</div>
 
 <div class="footer">
-  <h5>Laguna College of Business and Arts</h5>
+  <h5>© 2026 Laguna College of Business and Arts</h5>
 </div>
 
 </body>
 </html>
-
-
