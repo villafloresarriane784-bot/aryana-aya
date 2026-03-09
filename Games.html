@@ -1,35 +1,540 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Healthy Life Simulator</title>
-<link rel="stylesheet" href="foodsubway.css">
-<script src="script.js"></script>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LCBA Café Simulator</title>
+<link rel="stylesheet" href="main.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:   #fdf6ec;
+    --brown:   #5c3d2e;
+    --mocha:   #3b2314;
+    --latte:   #c8a882;
+    --gold:    #d4882a;
+    --green:   #4a7c59;
+    --red:     #c0392b;
+    --white:   #ffffff;
+    --shadow:  rgba(60,30,10,0.13);
+    --r:       12px;
+  }
 
+  /* ── Base: sit on site background ── */
+  .cafe-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 20px 14px 50px;
+    font-family: 'Nunito', Arial, sans-serif;
+  }
+
+  /* ── Panel ── */
+  .panel {
+    background: var(--cream);
+    border: 1px solid var(--latte);
+    border-radius: var(--r);
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 3px 16px var(--shadow);
+  }
+
+  /* ── Header ── */
+  .cafe-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 5vw, 36px);
+    color: var(--mocha);
+    text-align: center;
+    margin-bottom: 2px;
+  }
+  .cafe-title em { font-style: italic; color: var(--gold); }
+  .cafe-sub {
+    text-align: center;
+    font-size: 13px;
+    color: var(--latte);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+
+  /* ── HUD bar ── */
+  .hud {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hud-chip {
+    background: var(--white);
+    border: 1px solid var(--latte);
+    border-radius: 99px;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--brown);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 90px;
+    justify-content: center;
+  }
+  .hud-chip span { font-size: 18px; }
+  #timerChip { transition: color 0.3s; }
+  #timerChip.urgent { color: var(--red); animation: pulse 0.6s infinite alternate; }
+  @keyframes pulse { to { transform: scale(1.08); } }
+
+  /* ── Customer queue ── */
+  .queue-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--latte);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .queue-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .customer-card {
+    background: var(--white);
+    border: 2px solid var(--latte);
+    border-radius: var(--r);
+    padding: 12px 14px;
+    min-width: 130px;
+    text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .customer-card.active {
+    border-color: var(--gold);
+    box-shadow: 0 4px 18px rgba(212,136,42,0.25);
+    transform: translateY(-3px);
+  }
+  .customer-card.done {
+    border-color: var(--green);
+    background: #f0faf4;
+    cursor: default;
+  }
+  .customer-card.failed {
+    border-color: var(--red);
+    background: #fff5f5;
+    opacity: 0.6;
+    cursor: default;
+  }
+  .cust-emoji { font-size: 32px; margin-bottom: 4px; }
+  .cust-name  { font-size: 12px; font-weight: 800; color: var(--brown); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .order-tag  {
+    display: inline-block;
+    background: var(--cream);
+    border: 1px solid var(--latte);
+    border-radius: 99px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--brown);
+    margin: 2px;
+  }
+  .cust-timer-bar {
+    margin-top: 8px;
+    height: 5px;
+    background: #e8ddd0;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .cust-timer-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 99px;
+    transition: width 0.4s linear, background 0.4s;
+  }
+  .status-badge {
+    position: absolute;
+    top: -8px; right: -8px;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  /* ── Order builder ── */
+  .builder-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--brown);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .builder-label strong { font-style: normal; font-family: 'Nunito', sans-serif; color: var(--mocha); }
+
+  .tray {
+    min-height: 54px;
+    background: var(--white);
+    border: 2px dashed var(--latte);
+    border-radius: var(--r);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+  .tray.highlight { border-color: var(--gold); }
+  .tray-item {
+    background: var(--cream);
+    border: 1px solid var(--latte);
+    border-radius: 99px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .tray-item:hover { background: #fdebd0; }
+  .tray-empty { color: #bbb; font-size: 13px; font-style: italic; }
+
+  /* ── Ingredient buttons ── */
+  .ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .ing-btn {
+    background: var(--white);
+    border: 1px solid var(--latte);
+    border-radius: var(--r);
+    padding: 10px 6px 8px;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--brown);
+    transition: background 0.15s, transform 0.12s, border-color 0.15s;
+  }
+  .ing-btn:hover { background: #fdebd0; border-color: var(--gold); transform: translateY(-2px); }
+  .ing-btn:active { transform: scale(0.95); }
+  .ing-btn .ing-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+  .ing-btn .ing-cat  { font-size: 9px; color: var(--latte); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  /* ── Action buttons ── */
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-serve {
+    flex: 1;
+    background: var(--gold);
+    color: var(--white);
+    border: none;
+    border-radius: 99px;
+    padding: 12px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.12s;
+    letter-spacing: 0.3px;
+  }
+  .btn-serve:hover { background: #b8731f; transform: scale(1.02); }
+  .btn-serve:active { transform: scale(0.97); }
+  .btn-clear {
+    background: var(--white);
+    color: var(--brown);
+    border: 1px solid var(--latte);
+    border-radius: 99px;
+    padding: 12px 20px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-clear:hover { background: #fdebd0; }
+
+  /* ── Feedback toast ── */
+  .toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: var(--mocha);
+    color: var(--cream);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    padding: 12px 28px;
+    border-radius: 99px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast.good { background: var(--green); }
+  .toast.bad  { background: var(--red); }
+
+  /* ── Score popup ── */
+  .score-pop {
+    position: fixed;
+    pointer-events: none;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 22px;
+    z-index: 9999;
+    animation: scorePop 1.1s ease forwards;
+  }
+  @keyframes scorePop {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-70px) scale(0.7); }
+  }
+
+  /* ── Order log ── */
+  .log-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--latte);
+    margin-bottom: 8px;
+  }
+  .log-scroll {
+    max-height: 110px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .log-scroll::-webkit-scrollbar { width: 4px; }
+  .log-scroll::-webkit-scrollbar-thumb { background: var(--latte); border-radius: 99px; }
+  .log-entry {
+    font-size: 12px;
+    color: var(--brown);
+    background: var(--white);
+    border-radius: 8px;
+    padding: 5px 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    animation: slideIn 0.22s ease;
+    border-left: 3px solid transparent;
+  }
+  .log-entry.good { border-left-color: var(--green); }
+  .log-entry.bad  { border-left-color: var(--red); }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ── End screen overlay ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(30,15,5,0.75);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+  }
+  .overlay.show { display: flex; }
+  .end-box {
+    background: var(--cream);
+    border: 2px solid var(--latte);
+    border-radius: 20px;
+    padding: 36px 44px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    animation: popIn 0.35s cubic-bezier(.2,1.4,.4,1);
+    box-shadow: 0 20px 60px rgba(30,15,5,0.3);
+  }
+  @keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+  .end-emoji { font-size: 68px; margin-bottom: 8px; }
+  .end-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: var(--mocha);
+    margin-bottom: 6px;
+  }
+  .end-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--latte);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .end-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .end-stat .val {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .end-stat .lbl {
+    font-size: 11px;
+    color: var(--latte);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .btn-play-again {
+    background: var(--mocha);
+    color: var(--cream);
+    border: none;
+    border-radius: 99px;
+    padding: 12px 36px;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.12s;
+  }
+  .btn-play-again:hover { background: var(--brown); transform: scale(1.04); }
+
+  /* ── Day/shift progress bar ── */
+  .shift-bar-wrap { margin-top: 10px; }
+  .shift-bar-label {
+    font-size: 11px;
+    color: var(--latte);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .shift-bar-track {
+    height: 8px;
+    background: #e8ddd0;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .shift-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--latte), var(--gold));
+    border-radius: 99px;
+    transition: width 1s linear;
+  }
+
+  @media (max-width: 500px) {
+    .end-box { padding: 26px 18px; }
+    .ingredients-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
 <body>
 
-<h1>Healthy Life Simulator</h1>
-
-<div id="stats">
-<p id="day">Day: 1</p>
-<p id="health">Health: 100</p>
-<p id="energy">Energy: 100</p>
-<p id="happiness">Happiness: 100</p>
+<!-- SITE HEADER -->
+<div class="header">
+  <br><br><br><br>
+  <h1 class="font">Home Economics</h1>
+  <h2 class="font">HE</h2>
 </div>
 
-<div id="actions">
+<!-- SITE NAV -->
+<div class="topnav">
+  <a href="LCBA.html">LCBA</a>
+  <a href="HE.html">TVL-HE</a>
+  <a href="ProductImage.html">Image Gallery</a>
+  <a href="ProductVideo.html">Video Gallery</a>
+  <a href="Games.html" style="float:right">Games</a>
+</div>
 
-<button onclick="eatHealthy()">🍎 Eat Healthy</button>
-<button onclick="eatJunk()">🍔 Eat Junk Food</button>
-<button onclick="exercise()">🏃 Exercise</button>
-<button onclick="sleep()">😴 Sleep</button>
-<button onclick="internet()">📱 Use Internet</button>
+<!-- GAME -->
+<div class="cafe-wrapper">
+
+  <!-- Title + HUD -->
+  <div class="panel">
+    <div class="cafe-title">☕ <em>LCBA</em> Café</div>
+    <div class="cafe-sub">Serve customers before they leave — build each order from ingredients!</div>
+    <div class="hud">
+      <div class="hud-chip"><span>⏱️</span> <span id="timerVal">60</span>s</div>
+      <div class="hud-chip" id="timerChip"><span>💰</span> ₱<span id="scoreVal">0</span></div>
+      <div class="hud-chip"><span>✅</span> <span id="servedVal">0</span> served</div>
+      <div class="hud-chip"><span>❌</span> <span id="missedVal">0</span> missed</div>
+    </div>
+    <div class="shift-bar-wrap">
+      <div class="shift-bar-label">Shift Progress</div>
+      <div class="shift-bar-track"><div class="shift-bar-fill" id="shiftBar" style="width:100%"></div></div>
+    </div>
+  </div>
+
+  <!-- Customer queue -->
+  <div class="panel">
+    <div class="queue-label">Waiting Customers</div>
+    <div class="queue-row" id="queueRow">
+      <div style="color:#bbb; font-size:13px; font-style:italic;">No customers yet — start the shift!</div>
+    </div>
+  </div>
+
+  <!-- Order builder -->
+  <div class="panel" id="builderPanel">
+    <div class="builder-label" id="builderLabel">👆 Select a customer above to take their order</div>
+
+    <!-- Tray -->
+    <div class="tray" id="tray">
+      <span class="tray-empty" id="trayEmpty">Your tray is empty — add ingredients below</span>
+    </div>
+
+    <!-- Ingredients -->
+    <div class="ingredients-grid" id="ingredientsGrid"></div>
+
+    <!-- Serve / Clear -->
+    <div class="btn-row">
+      <button class="btn-serve" onclick="serveOrder()">☕ Serve Order</button>
+      <button class="btn-clear" onclick="clearTray()">🗑 Clear</button>
+    </div>
+  </div>
+
+  <!-- Order log -->
+  <div class="panel">
+    <div class="log-label">Order History</div>
+    <div class="log-scroll" id="logScroll">
+      <div style="color:#bbb; font-size:12px; font-style:italic; padding:4px 10px;">No orders yet…</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <button class="btn-serve" id="startBtn" onclick="startGame()" style="max-width:220px; font-size:16px; padding:14px 36px;">
+      🍽️ Open the Café!
+    </button>
+  </div>
 
 </div>
 
-<div id="message"></div>
+<div class="footer">
+  <h5>© 2026 Laguna College of Business and Arts</h5>
+</div>
 
-<div id="gameOver"></div>
+<div class="toast" id="toast"></div>
+
+<div class="overlay" id="overlay">
+  <div class="end-box">
+    <div class="end-emoji" id="endEmoji"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-sub"   id="endSub"></div>
+    <div class="end-stats">
+      <div class="end-stat"><div class="val" id="endScore"></div><div class="lbl">💰 Earned</div></div>
+      <div class="end-stat"><div class="val" id="endServed"></div><div class="lbl">✅ Served</div></div>
+      <div class="end-stat"><div class="val" id="endMissed"></div><div class="lbl">❌ Missed</div></div>
+    </div>
+    <button class="btn-play-again" onclick="resetGame()">Open Again Tomorrow ☀️</button>
+  </div>
+</div>
 
 <script src="script.js"></script>
 
