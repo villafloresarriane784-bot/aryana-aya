@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
+  <link rel="stylesheet" href="LCBA.css">
+</head>
+<body>
+
+<div class="header">
+  <br><br><br><br>
+  <h1 class="font">Home Economics</h1>
+  <h2 class="font">HE</h2>
+</div>
+
+<div class="topnav">
+  <a href="About_LCBA.html">LCBA</a>
+  <a href="AboutTheStrand.html">TVL-HE</a>
+  <a href="ProductImage.html">Image Gallery</a>
+  <a href="ProductVideo.html">Video Gallery</a>
+  <a href="GamesHestrand.html" style="float:right">Games</a>
+</div>
+
+<h2 style="background-color: rgba(255,255,255,0.7); padding: 12px; text-align:center;" class="font2">Gallery</h2>
+
+<div class="container">
+  <div class="mySlides">
+    <div class="numbertext">1 / 12</div>
+    <img src="bev1.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">2 / 12</div>
+    <img src="bev2.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">3 / 12</div>
+    <img src="bev3.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">4 / 12</div>
+    <img src="bread1.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">5 / 12</div>
+    <img src="bread2.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">6 / 12</div>
+    <img src="bread3.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">7 / 12</div>
+    <img src="cook1.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">8 / 12</div>
+    <img src="cook2.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">9 / 12</div>
+    <img src="cook3.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">10 / 12</div>
+    <img src="house1.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">11 / 12</div>
+    <img src="house2.jpg" style="width:100%" height="700">
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">12 / 12</div>
+    <img src="house3.jpg" style="width:100%" height="700">
+  </div>
+
+  <a class="prev" onclick="plusSlides(-1)">❮</a>
+  <a class="next" onclick="plusSlides(1)">❯</a>
+
+  <div class="caption-container">
+    <p id="caption"></p>
+  </div>
+
+  <div class="row">
+    <div class="column"><img class="demo cursor" src="bev1.jpg" style="width:100%" onclick="currentSlide(1)" alt="Beverage 1"></div>
+    <div class="column"><img class="demo cursor" src="bev2.jpg" style="width:100%" onclick="currentSlide(2)" alt="Beverage 2"></div>
+    <div class="column"><img class="demo cursor" src="bev3.jpg" style="width:100%" onclick="currentSlide(3)" alt="Beverage 3"></div>
+    <div class="column"><img class="demo cursor" src="bread1.jpg" style="width:100%" onclick="currentSlide(4)" alt="Bread 1"></div>
+    <div class="column"><img class="demo cursor" src="bread2.jpg" style="width:100%" onclick="currentSlide(5)" alt="Bread 2"></div>
+    <div class="column"><img class="demo cursor" src="bread3.jpg" style="width:100%" onclick="currentSlide(6)" alt="Bread 3"></div>
+    <div class="column"><img class="demo cursor" src="cook1.jpg" style="width:100%" onclick="currentSlide(7)" alt="Cookery 1"></div>
+    <div class="column"><img class="demo cursor" src="cook2.jpg" style="width:100%" onclick="currentSlide(8)" alt="Cookery 2"></div>
+    <div class="column"><img class="demo cursor" src="cook3.jpg" style="width:100%" onclick="currentSlide(9)" alt="Cookery 3"></div>
+    <div class="column"><img class="demo cursor" src="house1.jpg" style="width:100%" onclick="currentSlide(10)" alt="Housekeeping 1"></div>
+    <div class="column"><img class="demo cursor" src="house2.jpg" style="width:100%" onclick="currentSlide(11)" alt="Housekeeping 2"></div>
+    <div class="column"><img class="demo cursor" src="house3.jpg" style="width:100%" onclick="currentSlide(12)" alt="Housekeeping 3"></div>
+  </div>
+</div>
+
+<div class="footer">
+  <h5>© 2026 Laguna College of Business and Arts</h5>
+</div>
+
+<script>
+let slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) { showSlides(slideIndex += n); }
+function currentSlide(n) { showSlides(slideIndex = n); }
+
+function showSlides(n) {
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("demo");
+  let captionText = document.getElementById("caption");
+  if (n > slides.length) { slideIndex = 1; }
+  if (n < 1) { slideIndex = slides.length; }
+  for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
+  for (let i = 0; i < dots.length; i++) dots[i].className = dots[i].className.replace(" active", "");
+  slides[slideIndex - 1].style.display = "block";
+  dots[slideIndex - 1].className += " active";
+  captionText.innerHTML = dots[slideIndex - 1].alt;
+}
+</script>
+
+</body>
+</html>
