@@ -3,8 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Gallery</title>
-  <link rel="stylesheet" href="LCBA.css">
+  <title>Image Gallery – TVL-HE</title>
+  <link rel="stylesheet" href="main.css">
+  <style>
+    /* ── Gallery page overrides ── */
+    .gallery-title {
+      text-align: center;
+      padding: 18px 12px;
+      background-color: rgba(255,255,255,0.82);
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 26px;
+      font-weight: normal;
+      letter-spacing: 2px;
+      border-bottom: 2px solid #333;
+    }
+
+    /* Main slide */
+    .container { position: relative; background: #111; }
+
+    .mySlides { display: none; }
+    .mySlides.fade { animation: fadeSlide 0.4s ease; }
+    @keyframes fadeSlide {
+      from { opacity: 0.4; }
+      to   { opacity: 1; }
+    }
+
+    .mySlides img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Slide number badge */
+    .numbertext {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 2px;
+      letter-spacing: 1px;
+      z-index: 5;
+    }
+
+    /* Arrows */
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .prev { left: 14px; }
+    .next { right: 14px; }
+    .prev:hover, .next:hover { background: rgba(0,0,0,0.85); }
+
+    /* Caption bar */
+    .caption-container {
+      background: #222;
+      padding: 10px 16px;
+      text-align: center;
+      color: #ddd;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 15px;
+      letter-spacing: 1px;
+      min-height: 38px;
+    }
+
+    /* Thumbnail strip */
+    .thumbnail-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      background: #111;
+      padding: 3px;
+    }
+    .thumbnail-row .column {
+      flex: 1 1 calc(16.66% - 3px);
+      overflow: hidden;
+    }
+    .thumbnail-row .column img {
+      width: 100%;
+      height: 72px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.5;
+      transition: opacity 0.2s, transform 0.25s;
+      cursor: pointer;
+    }
+    .thumbnail-row .column img:hover { opacity: 0.85; transform: scale(1.04); }
+    .thumbnail-row .column img.active { opacity: 1; outline: 2px solid #fff; }
+
+    /* Footer */
+    .footer { margin-top: 0; }
+
+    @media (max-width: 600px) {
+      .mySlides img { height: 260px; }
+      .thumbnail-row .column { flex: 1 1 calc(25% - 3px); }
+      .thumbnail-row .column img { height: 54px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -15,86 +128,49 @@
 </div>
 
 <div class="topnav">
-  <a href="About_LCBA.html">LCBA</a>
-  <a href="AboutTheStrand.html">TVL-HE</a>
+  <a href="LCBA.html">LCBA</a>
+  <a href="HE.html">TVL-HE</a>
   <a href="ProductImage.html">Image Gallery</a>
   <a href="ProductVideo.html">Video Gallery</a>
-  <a href="GamesHestrand.html" style="float:right">Games</a>
+  <a href="Games.html" style="float:right">Games</a>
 </div>
 
-<h2 style="background-color: rgba(255,255,255,0.7); padding: 12px; text-align:center;" class="font2">Gallery</h2>
+<h2 class="gallery-title">Gallery</h2>
 
 <div class="container">
-  <div class="mySlides">
-    <div class="numbertext">1 / 12</div>
-    <img src="bev1.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">2 / 12</div>
-    <img src="bev2.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">3 / 12</div>
-    <img src="bev3.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">4 / 12</div>
-    <img src="bread1.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">5 / 12</div>
-    <img src="bread2.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">6 / 12</div>
-    <img src="bread3.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">7 / 12</div>
-    <img src="cook1.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">8 / 12</div>
-    <img src="cook2.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">9 / 12</div>
-    <img src="cook3.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">10 / 12</div>
-    <img src="house1.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">11 / 12</div>
-    <img src="house2.jpg" style="width:100%" height="700">
-  </div>
-  <div class="mySlides">
-    <div class="numbertext">12 / 12</div>
-    <img src="house3.jpg" style="width:100%" height="700">
-  </div>
 
-  <a class="prev" onclick="plusSlides(-1)">❮</a>
-  <a class="next" onclick="plusSlides(1)">❯</a>
+  <div class="mySlides fade"><div class="numbertext">1 / 9</div><img src="bev1.jpg" alt="Beverage 1"></div>
+  <div class="mySlides fade"><div class="numbertext">2 / 9</div><img src="bev2.jpg" alt="Beverage 2"></div>
+  <div class="mySlides fade"><div class="numbertext">3 / 9</div><img src="bev3.jpg" alt="Beverage 3"></div>
+  <div class="mySlides fade"><div class="numbertext">4 / 9</div><img src="bread1.jpg" alt="Bread & Pastry 1"></div>
+  <div class="mySlides fade"><div class="numbertext">5 / 9</div><img src="bread2.jpg" alt="Bread & Pastry 2"></div>
+  <div class="mySlides fade"><div class="numbertext">6 / 9</div><img src="bread3.jpg" alt="Bread & Pastry 3"></div>
+  <div class="mySlides fade"><div class="numbertext">7 / 9</div><img src="cook1.jpg" alt="Cookery 1"></div>
+  <div class="mySlides fade"><div class="numbertext">8 / 9</div><img src="cook2.jpg" alt="Cookery 2"></div>
+  <div class="mySlides fade"><div class="numbertext">9 / 9</div><img src="cook3.jpg" alt="Cookery 3"></div>
 
-  <div class="caption-container">
-    <p id="caption"></p>
-  </div>
+  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
 
-  <div class="row">
-    <div class="column"><img class="demo cursor" src="bev1.jpg" style="width:100%" onclick="currentSlide(1)" alt="Beverage 1"></div>
-    <div class="column"><img class="demo cursor" src="bev2.jpg" style="width:100%" onclick="currentSlide(2)" alt="Beverage 2"></div>
-    <div class="column"><img class="demo cursor" src="bev3.jpg" style="width:100%" onclick="currentSlide(3)" alt="Beverage 3"></div>
-    <div class="column"><img class="demo cursor" src="bread1.jpg" style="width:100%" onclick="currentSlide(4)" alt="Bread 1"></div>
-    <div class="column"><img class="demo cursor" src="bread2.jpg" style="width:100%" onclick="currentSlide(5)" alt="Bread 2"></div>
-    <div class="column"><img class="demo cursor" src="bread3.jpg" style="width:100%" onclick="currentSlide(6)" alt="Bread 3"></div>
-    <div class="column"><img class="demo cursor" src="cook1.jpg" style="width:100%" onclick="currentSlide(7)" alt="Cookery 1"></div>
-    <div class="column"><img class="demo cursor" src="cook2.jpg" style="width:100%" onclick="currentSlide(8)" alt="Cookery 2"></div>
-    <div class="column"><img class="demo cursor" src="cook3.jpg" style="width:100%" onclick="currentSlide(9)" alt="Cookery 3"></div>
-    <div class="column"><img class="demo cursor" src="house1.jpg" style="width:100%" onclick="currentSlide(10)" alt="Housekeeping 1"></div>
-    <div class="column"><img class="demo cursor" src="house2.jpg" style="width:100%" onclick="currentSlide(11)" alt="Housekeeping 2"></div>
-    <div class="column"><img class="demo cursor" src="house3.jpg" style="width:100%" onclick="currentSlide(12)" alt="Housekeeping 3"></div>
-  </div>
+</div>
+
+<div class="caption-container">
+  <p id="caption"></p>
+</div>
+
+<div class="thumbnail-row">
+  <div class="column"><img src="bev1.jpg"   onclick="currentSlide(1)"  alt="Beverage 1"></div>
+  <div class="column"><img src="bev2.jpg"   onclick="currentSlide(2)"  alt="Beverage 2"></div>
+  <div class="column"><img src="bev3.jpg"   onclick="currentSlide(3)"  alt="Beverage 3"></div>
+  <div class="column"><img src="bread1.jpg" onclick="currentSlide(4)"  alt="Bread & Pastry 1"></div>
+  <div class="column"><img src="bread2.jpg" onclick="currentSlide(5)"  alt="Bread & Pastry 2"></div>
+  <div class="column"><img src="bread3.jpg" onclick="currentSlide(6)"  alt="Bread & Pastry 3"></div>
+  <div class="column"><img src="cook1.jpg"  onclick="currentSlide(7)"  alt="Cookery 1"></div>
+  <div class="column"><img src="cook2.jpg"  onclick="currentSlide(8)"  alt="Cookery 2"></div>
+  <div class="column"><img src="cook3.jpg"  onclick="currentSlide(9)"  alt="Cookery 3"></div>
+  <div class="column"><img src="house1.jpg" onclick="currentSlide(10)" alt="Housekeeping 1"></div>
+  <div class="column"><img src="house2.jpg" onclick="currentSlide(11)" alt="Housekeeping 2"></div>
+  <div class="column"><img src="house3.jpg" onclick="currentSlide(12)" alt="Housekeeping 3"></div>
 </div>
 
 <div class="footer">
@@ -109,17 +185,29 @@ function plusSlides(n) { showSlides(slideIndex += n); }
 function currentSlide(n) { showSlides(slideIndex = n); }
 
 function showSlides(n) {
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("demo");
-  let captionText = document.getElementById("caption");
-  if (n > slides.length) { slideIndex = 1; }
-  if (n < 1) { slideIndex = slides.length; }
-  for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
-  for (let i = 0; i < dots.length; i++) dots[i].className = dots[i].className.replace(" active", "");
+  const slides = document.getElementsByClassName("mySlides");
+  const thumbs = document.querySelectorAll(".thumbnail-row .column img");
+  const caption = document.getElementById("caption");
+
+  if (n > slides.length) slideIndex = 1;
+  if (n < 1) slideIndex = slides.length;
+
+  for (let s of slides) s.style.display = "none";
+  for (let t of thumbs) t.classList.remove("active");
+
   slides[slideIndex - 1].style.display = "block";
-  dots[slideIndex - 1].className += " active";
-  captionText.innerHTML = dots[slideIndex - 1].alt;
+  thumbs[slideIndex - 1].classList.add("active");
+  caption.innerHTML = thumbs[slideIndex - 1].alt;
+
+  // scroll active thumbnail into view
+  thumbs[slideIndex - 1].scrollIntoView({ inline: "center", behavior: "smooth", block: "nearest" });
 }
+
+// keyboard support
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft")  plusSlides(-1);
+  if (e.key === "ArrowRight") plusSlides(1);
+});
 </script>
 
 </body>
